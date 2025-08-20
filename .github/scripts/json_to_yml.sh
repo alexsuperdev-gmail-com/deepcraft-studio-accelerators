@@ -10,6 +10,7 @@ for d in */ ; do
   fi
 done
 
+# Combines all .yml files in ModelYmls into ai_hub_cards.yml under 'cards:'
 cd ModelYmls
 echo "cards:" > ai_hub_cards.yml
 for f in *.yml; do
