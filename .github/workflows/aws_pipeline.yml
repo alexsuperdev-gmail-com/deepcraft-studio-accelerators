@@ -1,0 +1,31 @@
+name: AWS AI Hub workflow
+
+on:
+  push
+
+env:
+  BUCKET_NAME : "itsi-ifx-dev-training-data-bucket"
+  AWS_REGION : "us-east-1"
+
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
+jobs:
+  S3PackageUpload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::614441038447:role/AI-HUB-GIT-HUB
+          role-session-name: aihubsession
+          aws-region: ${{ env.AWS_REGION }}
+
+      # Upload a file to AWS S3
+      - name: Copy ai_hub_cards.yml to S3
+        run: |
+          aws s3 cp ./aihub-models/model-one/ai_hub_cards.yml s3://${{ env.BUCKET_NAME }}/
