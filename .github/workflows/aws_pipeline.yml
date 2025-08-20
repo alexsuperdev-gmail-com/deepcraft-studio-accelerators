@@ -30,11 +30,6 @@ jobs:
           chmod +x .github/scripts/json_to_yml.sh
           .github/scripts/json_to_yml.sh
 
-      - name: Combine all ModelYmls/*.yml into ai_hub_cards.yml and clean up
-        run: |
-          chmod +x .github/scripts/combine_ymls.sh
-          .github/scripts/combine_ymls.sh
-
       # Upload a file to AWS S3
       - name: Copy ai_hub_cards.yml to S3
         run: |
