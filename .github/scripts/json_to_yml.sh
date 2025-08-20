@@ -6,7 +6,6 @@ for d in */ ; do
   if [ -f "$d/metadata.json" ]; then
     name=$(basename "$d")
     yml_file="ModelYmls/${name}.yml"
-    # Use yq if available, else fallback to python
     python3 -c 'import sys, yaml, json; yaml.safe_dump(json.load(sys.stdin), sys.stdout, default_flow_style=False)' < "$d/metadata.json" > "$yml_file"    
   fi
 done
