@@ -7,11 +7,7 @@ for d in */ ; do
     name=$(basename "$d")
     yml_file="ModelYmls/${name}.yml"
     # Use yq if available, else fallback to python
-    if command -v yq >/dev/null 2>&1; then
-      yq -P . "$d/metadata.json" > "$yml_file"
-    else
-      python3 -c 'import sys, yaml, json; yaml.safe_dump(json.load(sys.stdin), sys.stdout, default_flow_style=False)' < "$d/metadata.json" > "$yml_file"
-    fi
+    python3 -c 'import sys, yaml, json; yaml.safe_dump(json.load(sys.stdin), sys.stdout, default_flow_style=False)' < "$d/metadata.json" > "$yml_file"    
   fi
 done
 
