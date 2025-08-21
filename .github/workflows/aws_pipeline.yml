@@ -33,4 +33,4 @@ jobs:
       # Upload a file to AWS S3
       - name: Copy ai_hub_cards.yml to S3
         run: |
-          aws s3 cp ./ModelYmls/ai_hub_cards.yml s3://${{ env.BUCKET_NAME }}/
+          aws s3 cp ./ai_hub_cards.yml s3://${{ env.BUCKET_NAME }}/
