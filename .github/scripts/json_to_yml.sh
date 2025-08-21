@@ -1,25 +1,14 @@
 #!/bin/bash
 # Converts all top-level metadata.json files to .yml in ModelYmls
 set -e
-mkdir -p ModelYmls
+echo "cards:" > ModelYmls/ai_hub_cards.yml
 for d in */ ; do
   if [ -f "$d/metadata.json" ]; then
     name=$(basename "$d")
-    yml_file="ModelYmls/${name}.yml"
-    python3 -c 'import sys, yaml, json; yaml.safe_dump(json.load(sys.stdin), sys.stdout, default_flow_style=False)' < "$d/metadata.json" > "$yml_file"    
+    echo "  $name:" >> ModelYmls/ai_hub_cards.yml
+    python3 -c 'import sys, yaml, json; yaml.safe_dump(json.load(sys.stdin), sys.stdout, default_flow_style=False)' < "$d/metadata.json" | sed 's/^/    /' >> ModelYmls/ai_hub_cards.yml
+    #echo "" >> ModelYmls/ai_hub_cards.yml   
   fi
 done
-
-# Combines all .yml files in ModelYmls into ai_hub_cards.yml under 'cards:'
-cd ModelYmls
-echo "cards:" > ai_hub_cards.yml
-for f in *.yml; do
-  [ "$f" = "ai_hub_cards.yml" ] && continue
-  name="${f%.yml}"
-  echo "  $name:" >> ai_hub_cards.yml
-  sed 's/^/    /' "$f" >> ai_hub_cards.yml
-  echo "" >> ai_hub_cards.yml
-  echo "    # ---" >> ai_hub_cards.yml
-  echo "" >> ai_hub_cards.yml
-  rm "$f"
-done
+# Optionally, remove all .yml files except ai_hub_cards.yml if any exist from previous runs
+find ModelYmls -maxdepth 1 -type f -name '*.yml' ! -name 'ai_hub_cards.yml' -delete
