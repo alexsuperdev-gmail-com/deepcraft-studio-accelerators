@@ -18,6 +18,13 @@ jobs:
       - name: Git clone the repository
         uses: actions/checkout@v4
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::614441038447:role/AI-HUB-GIT-HUB
+          role-session-name: aihubsession
+          aws-region: ${{ env.AWS_REGION }}
+
       - name: Convert metadata.json files to .yml in ModelYmls
         run: |
           chmod +x .github/scripts/json_to_yml.sh
@@ -26,4 +33,4 @@ jobs:
       # Upload a file to AWS S3
       - name: Copy ai_hub_cards.yml to S3
         run: |
-          aws s3 cp ./ai_hub_cards.yml s3://${{ env.BUCKET_NAME }}/ --acl public-read
+          aws s3 cp ./ai_hub_cards.yml s3://${{ env.BUCKET_NAME }}/
