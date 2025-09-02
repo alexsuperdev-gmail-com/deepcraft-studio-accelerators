@@ -1,7 +1,7 @@
 #!/bin/bash
 # Converts all top-level metadata.json files to .yml in ModelYmls
 set -e
-echo "cards_1:" > ai_hub_cards.yml
+echo "cards_2:" > ai_hub_cards.yml
 for d in */ ; do
   if [ -f "$d/metadata.json" ]; then
     name=$(basename "$d")
